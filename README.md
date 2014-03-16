@@ -1,7 +1,7 @@
 # Configue
 Configue is a configuration / settings solution that uses YAML files.
 It is almost a fork of SettingsLogic.
-Configue can read multiple YAML files and you can use big configration data
+Configue can read multiple YAML files and you can use big configuration data
 simply.
 
 ## Installation
