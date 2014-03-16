@@ -8,8 +8,9 @@ module Configue
       end
 
       def [](*args)
-        key = args[0].to_s
-        @setting.hash[key]
+        args.each.inject(@setting.hash) do |h, key|
+          h[key.to_s] if h
+        end
       end
 
       def key?(key); @setting.hash.key?(key.to_s); end

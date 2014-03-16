@@ -19,6 +19,22 @@ describe "Configue::Container" do
         SingleYamlConf["pee"],
         {"kaa0" => ["boo"], "kaa1" => ["boo"]}
     end
+
+    describe ".[]" do
+      context "when specifing multiple existing keys" do
+        it "walks down the tree along the keys and returns a value" do
+          actual = SingleYamlConf["pee", "kaa1", "boo"]
+          expect(actual).to eq "baa"
+        end
+      end
+
+      context "when specifing keys included non-existing keys" do
+        it "returns nil" do
+          actual = SingleYamlConf["pee", "kaa", "boo"]
+          expect(actual).to be_nil
+        end
+      end
+    end
   end
 
   context "when reading multiple yaml files" do
