@@ -1,0 +1,17 @@
+foo:
+  baa:
+    baz0:
+      - abc
+      - def
+      - ghi
+      - jkl
+    baz1:
+      - abcd
+      - efgh
+      - ijkl
+pee:
+  kaa0:
+    boo: foo
+  kaa1:
+    boo: baa
+
