@@ -12,7 +12,26 @@ gem install configue
 ## Usage
 ### Define your class
 ```ruby
-class Conf < Configue::Container
+class MyConf < Configue::Container
   config_setting.source_dir "#{File.dirname(__FILE__)}/config"
 end
 ```
+
+### Write your settings in YAML file
+```yaml
+# config/accounts/admin_users.yml
+config:
+  accounts:
+    admin_users:
+      - grumpy
+      - sneezy
+```
+```yaml
+# config/accounts/test_users.yml
+config:
+  accounts:
+    test_users:
+      - sleepy
+      - dopey
+```
+    
