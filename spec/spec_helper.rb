@@ -1,6 +1,6 @@
 # coding: utf-8
 require 'rspec'
-require 'conf_logic'
+require 'configue'
 
 RSpec.configure do |config|
 end

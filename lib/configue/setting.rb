@@ -1,6 +1,6 @@
 # coding: utf-8
 
-module ConfLogic
+module Configue
   class Setting
     def initialize(owner_class)
       @owner_class = owner_class

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-module ConfLogic
+module Configue
   class InnerHash < Hash
     def initialize(source_hash=nil)
       if source_hash

@@ -1,9 +1,9 @@
 # coding: utf-8
 
-module ConfLogic
+module Configue
   class Container
     class << self
-      def conf_setting
+      def config_setting
         @setting ||= Setting.new(self)
       end
 
