@@ -1,9 +1,9 @@
 # coding: utf-8
-require File.expand_path(File.dirname(__FILE__) + "/spec_helper")
+require File.expand_path("../../spec_helper", __FILE__)
 
 describe "Configue::Container" do
   context "when reading a single yaml file" do
-    require "#{File.dirname(__FILE__)}/single_yaml_conf"
+    require "#{File.dirname(__FILE__)}/../single_yaml_conf"
 
     context "1st level" do
       it_should_behave_like "an InnerHash instance",
@@ -38,7 +38,7 @@ describe "Configue::Container" do
   end
 
   context "when reading multiple yaml files" do
-    require "#{File.dirname(__FILE__)}/multiple_yaml_conf"
+    require "#{File.dirname(__FILE__)}/../multiple_yaml_conf"
 
     context "1st level" do
       it_should_behave_like "an InnerHash instance",

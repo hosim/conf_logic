@@ -1,4 +1,5 @@
 # coding: utf-8
+require "yaml"
 
 module Configue
   class Setting
