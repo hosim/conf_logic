@@ -19,22 +19,6 @@ describe "Configue::Container" do
         SingleYamlConf["pee"],
         {"kaa0" => ["boo"], "kaa1" => ["boo"]}
     end
-
-    describe ".path?" do
-      context "when specifing an existing path" do
-        it "returns true" do
-          actual = SingleYamlConf.path?("pee.kaa1.boo")
-          expect(actual).to be_true
-        end
-      end
-
-      context "when specifing a non-existing path" do
-        it "returns false" do
-          actual = SingleYamlConf.path?("pee.kaa.boo")
-          expect(actual).to be_false
-        end
-      end
-    end
   end
 
   context "when reading multiple yaml files" do

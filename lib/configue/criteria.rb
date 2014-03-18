@@ -12,7 +12,7 @@ module Configue
       self
     end
 
-    def value
+    def retrieve
       @path.each.inject(@hash) do |h, key|
         return nil unless h.is_a?(Hash) and h.has_key?(key)
         h[key]

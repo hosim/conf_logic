@@ -3,13 +3,15 @@
 module Configue
   class InnerHash < Hash
     def initialize(source_hash=nil)
-      if source_hash
-        deep_update(source_hash)
+      deep_merge!(source_hash) if source_hash
+    end
 
-        sig = class << self; self; end
-        source_hash.keys.each do |k|
-          sig.__send__(:define_method, k, ->{ self[k] })
-        end
+    def deep_merge!(other)
+      deep_update(other)
+
+      sig = class << self; self; end
+      other.keys.each do |k|
+        sig.__send__(:define_method, k, ->{ self[k] })
       end
     end
 

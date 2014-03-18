@@ -1,5 +1,6 @@
 # coding: utf-8
 require "yaml"
+require "forwardable"
 
 module Configue
   class Setting
@@ -11,12 +12,18 @@ module Configue
       @hash ||= InnerHash.new
       Dir.glob("#{dir}/**/*.yml") do |filenm|
         h = YAML.load_file(filenm)
-        @hash.__send__(:deep_update, h)
+#        @hash.__send__(:deep_update, h)
+        @hash.deep_merge!(h)
 
-        sig = class << @owner_class; self; end
-        h.keys.each do |k|
-          sig.__send__(:define_method, k, ->{ self[k] })
-        end
+#        sig = class << @owner_class; self; end
+#        h.keys.each do |k|
+#          sig.__send__(:define_method, k, ->{ self[k] })
+#        end
+      end
+      methods = [:[], :key?, :has_key?] + @hash.keys
+      @owner_class.extend SingleForwardable
+      methods.each do |m|
+        @owner_class.def_delegator "@setting.hash", m
       end
       @hash
     end
