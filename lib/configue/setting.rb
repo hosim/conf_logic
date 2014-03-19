@@ -17,23 +17,27 @@ module Configue
       namespace(key)
     end
 
-    def source_dir(dir=nil)
+    def source_dir(*dirs)
       @source_dirs ||= []
-      @source_dirs << dir if dir
+      @source_dirs += dirs unless dirs.empty?
       @source_dirs
     end
 
     def source_dir=(dir)
-      source_dir(dir)
+      if dir.is_a?(Array)
+        source_dir(*dir)
+      else
+        source_dir(dir)
+      end
     end
 
     def load_source
-      space = namespace
+      space = namespace.to_s
 
       @source_dirs.each.inject(InnerHash.new) do |root, dir|
-        Dir.glob("#{dir}/**/*.yml") do |path|
+        Dir.glob("#{dir}/**/*.#{@loader.extention}") do |path|
           source = @loader.load(path)
-          h = space ? source[space.to_s] : source
+          h = space.empty? ? source : source[space]
           root.deep_merge!(h) if h
         end
         root
