@@ -3,8 +3,6 @@ require "configue/yaml_loader"
 
 module Configue
   class Setting
-    attr_reader :hash
-
     def initialize(owner_class)
       @owner_class = owner_class
       @loader = YamlLoader.new

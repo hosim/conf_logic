@@ -12,8 +12,10 @@ module Configue
       @node = hash
     end
 
-    def walk
-      Criteria.new(@node)
+    def query(key=nil)
+      q = Criteria.new(@node)
+      q = key.split('.').each.inject(q) {|c, k| c[k] } if key
+      q
     end
 
     class << self
