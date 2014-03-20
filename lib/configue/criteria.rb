@@ -2,14 +2,13 @@
 
 module Configue
   class Criteria
-    def initialize(hash)
+    def initialize(hash, *path)
       @hash = hash
-      @path = []
+      @path = path
     end
 
     def [](key)
-      @path << key.to_s
-      self
+      self.class.new(@hash, *@path, key.to_s)
     end
 
     def retrieve

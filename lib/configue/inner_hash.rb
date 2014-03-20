@@ -13,6 +13,7 @@ module Configue
       other.keys.each do |k|
         sig.__send__(:define_method, k, ->{ self[k] })
       end
+      self
     end
 
     def fetch(key, *args); super(key.to_s, *args); end

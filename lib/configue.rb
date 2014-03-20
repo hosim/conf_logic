@@ -2,4 +2,4 @@
 require "configue/setting"
 require "configue/container"
 require "configue/inner_hash"
-require "configue/criteria"
+

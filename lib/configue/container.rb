@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require "forwardable"
+require "configue/criteria"
 
 module Configue
   class Container
@@ -19,9 +20,10 @@ module Configue
     end
 
     class << self
-      def config_setting
+      def config
         @setting ||= Setting.new(self)
       end
+      alias_method :config_setting, :config
 
       private
       def method_missing(name, *args, &block)
