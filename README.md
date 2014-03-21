@@ -20,30 +20,28 @@ end
 ### Write your settings in YAML file
 ```yaml
 # config/accounts/admin_users.yml
-config:
-  accounts:
-    admin_users:
-      - grumpy
-      - sneezy
+accounts:
+  admin_users:
+    - grumpy
+    - sneezy
 ```
 
 You can make multiple settings files.
 
 ```yaml
 # config/accounts/test_users.yml
-config:
-  accounts:
-    test_users:
-      - sleepy
-      - dopey
+accounts:
+  test_users:
+    - sleepy
+    - dopey
 ```
 
 ### Access your settings
 ```
->> MyConf.config.accounts.admin_users
+>> MyConf.accounts.admin_users
 => ["grumpy", "sneezy"]
 
->> MyConf.config.accounts.test_users
+>> MyConf.accounts.test_users
 => ["sleepy", "dopey"]
 ```
 
