@@ -3,7 +3,7 @@ require File.expand_path("../spec_helper", __FILE__)
 
 describe "Configue::Container" do
   context "when reading a single yaml file" do
-    require File.expand_path("../single_yaml_conf", __FILE__)
+    require File.expand_path("../samples/single_yaml_conf", __FILE__)
 
     context "1st level" do
       it_should_behave_like "an InnerHash instance",
@@ -22,7 +22,7 @@ describe "Configue::Container" do
   end
 
   context "when reading multiple yaml files" do
-    require File.expand_path("../multiple_yaml_conf", __FILE__)
+    require File.expand_path("../samples/multiple_yaml_conf", __FILE__)
 
     context "1st level" do
       it_should_behave_like "an InnerHash instance",

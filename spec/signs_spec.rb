@@ -3,7 +3,7 @@ require File.expand_path("../spec_helper", __FILE__)
 
 describe "Configue::Container" do
   context "when reading a yaml file with keys included signs" do
-    require File.expand_path("../signs_conf", __FILE__)
+    require File.expand_path("../samples/signs_conf", __FILE__)
 
     context "1st level" do
       describe ".keys" do
