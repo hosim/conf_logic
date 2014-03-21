@@ -1,9 +1,9 @@
 # coding: utf-8
-require File.expand_path("../../spec_helper", __FILE__)
+require File.expand_path("../spec_helper", __FILE__)
 
 describe "Configue::Container" do
   context "when specifing 'namespace'" do
-    require "#{File.dirname(__FILE__)}/../namespace_conf"
+    require File.expand_path("../namespace_conf", __FILE__)
 
     context "1st level" do
       it_should_behave_like "an InnerHash instance",
@@ -25,7 +25,7 @@ describe "Configue::Container" do
   end
 
   context "when specifing 'namespace' and 'base_namespace'" do
-    require "#{File.dirname(__FILE__)}/../base_namespace_conf"
+    require File.expand_path("../base_namespace_conf", __FILE__)
 
     context "1st level" do
       it_should_behave_like "an InnerHash instance",
