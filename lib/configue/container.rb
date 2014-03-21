@@ -32,7 +32,9 @@ module Configue
 
       private
       def method_missing(name, *args, &block)
-        @instance ||= new(@setting.load_sources)
+        # makes @instance in this line.
+        @setting.load!
+
         if @instance.key?(name)
           @instance[name]
         else

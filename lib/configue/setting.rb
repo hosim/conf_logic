@@ -41,6 +41,21 @@ module Configue
       end
     end
 
+    def load!
+      instance = @owner_class.instance_variable_get(:@instance)
+      return instance if instance
+
+      instance = @owner_class.new(load_sources)
+      @owner_class.instance_variable_set(:@instance, instance)
+
+      sig = class << @owner_class; self; end
+      instance.keys.each do |k|
+        next unless k.to_s =~ /\A\w+\z/
+        sig.__send__(:define_method, k, -> { instance[k] })
+      end
+    end
+
+    private
     def load_sources
       hash = load_each_source
 
@@ -55,7 +70,6 @@ module Configue
       hash
     end
 
-    private
     def load_each_source
       @source_dirs.each.inject(InnerHash.new) do |root, dir|
         Dir.glob("#{dir}/**/*.#{@loader.extention}") do |path|
@@ -83,11 +97,7 @@ module Configue
       access_name = @owner_class.instance_variable_get(:@config_access_name)
       return super unless access_name
 
-      instance = @owner_class.instance_variable_get(:@instance)
-      unless instance
-        instance = @owner_class.new(load_sources)
-        @owner_class.instance_variable_set(:@instance, instance)
-      end
+      instance = self.load!
 
       nm = name.to_s
       if instance[access_name] and instance[access_name].key?(nm)
