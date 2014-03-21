@@ -41,8 +41,8 @@ module Configue
       end
     end
 
-    def load_source
-      hash = load_sources
+    def load_sources
+      hash = load_each_source
 
       space = namespace.to_s
       unless space.empty?
@@ -56,7 +56,7 @@ module Configue
     end
 
     private
-    def load_sources
+    def load_each_source
       @source_dirs.each.inject(InnerHash.new) do |root, dir|
         Dir.glob("#{dir}/**/*.#{@loader.extention}") do |path|
           source = @loader.load(path)
@@ -77,6 +77,26 @@ module Configue
       root.deep_merge!(base => hash[base]) if ! base.empty? and hash[base]
       root.deep_merge!(space => hash[space])
       root
+    end
+
+    def method_missing(name, *args, &block)
+      access_name = @owner_class.instance_variable_get(:@config_access_name)
+      return super unless access_name
+
+      instance = @owner_class.instance_variable_get(:@instance)
+      unless instance
+        instance = @owner_class.new(load_sources)
+        @owner_class.instance_variable_set(:@instance, instance)
+      end
+
+      nm = name.to_s
+      if instance[access_name] and instance[access_name].key?(nm)
+        instance[access_name][nm]
+      elsif [:keys, :key?, :has_key?].index(name)
+        instance[access_name].__send__(name, *args, &block)
+      else
+        super
+      end
     end
   end
 end

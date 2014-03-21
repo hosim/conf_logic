@@ -21,13 +21,18 @@ module Configue
 
     class << self
       def config
+        @config_access_name = "config"
         @setting ||= Setting.new(self)
       end
-      alias_method :config_setting, :config
+
+      def config_setting
+        @config_access_name = "config_setting"
+        @setting ||= Setting.new(self)
+      end
 
       private
       def method_missing(name, *args, &block)
-        @instance ||= new(@setting.load_source)
+        @instance ||= new(@setting.load_sources)
         if @instance.key?(name)
           @instance[name]
         else
