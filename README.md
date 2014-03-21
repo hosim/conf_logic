@@ -56,6 +56,10 @@ When you write settings as follows:
 # config/settings/base.yml
 base:
   foo:
+    baa:
+      - a
+      - b
+      - c
     baz:
       - one
       - two
@@ -85,7 +89,7 @@ class MyConf < Configue::Container
   config.namespace :test
 end
 ```
-You can access in the following manner:
+you can access it in the following manner:
 ```
 >> MyConf.foo.baa
 => ["boo", "foo", "woo"]
