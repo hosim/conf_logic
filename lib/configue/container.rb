@@ -1,20 +1,12 @@
 # coding: utf-8
 
-require "forwardable"
 require "configue/criteria"
 
 module Configue
-  class Container
-    extend Forwardable
-
-    def_delegators :@node, :keys, :key?, :has_key?, :[]
-
-    def initialize(hash)
-      @node = hash
-    end
+  class Container < Node
 
     def query(key=nil)
-      q = Criteria.new(@node)
+      q = Criteria.new(@hash)
       q = key.split('.').each.inject(q) {|c, k| c[k] } if key
       q
     end

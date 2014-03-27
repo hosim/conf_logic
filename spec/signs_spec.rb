@@ -15,11 +15,11 @@ describe "Configue::Container" do
 
       describe ".[]" do
         it "returns a value associated with the parameter" do
-          actual = SignsConf["a top key with some spaces"]
+          actual = SignsConf["a top key with some spaces"].to_hash
           expected = {"a key with some spaces" => "OK"}
           expect(actual).to eq expected
 
-          actual = SignsConf["!@#$%^&*()_+"]
+          actual = SignsConf["!@#$%^&*()_+"].to_hash
           expected = {"+_)(*&^%$#@!" => "OK"}
           expect(actual).to eq expected
         end

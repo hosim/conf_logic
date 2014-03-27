@@ -1,5 +1,6 @@
 # coding: utf-8
 
+require "configue/merger"
 require "configue/yaml_loader"
 
 module Configue
@@ -62,22 +63,22 @@ module Configue
       space = namespace.to_s
       unless space.empty?
         base = base_namespace.to_s
-        result = InnerHash.new
-        result.deep_merge!(hash[base]) if base_namespace
-        result.deep_merge!(hash[space]) if hash[space]
+        result = {}
+        Merger.merge(result, hash[base]) if base_namespace
+        Merger.merge(result, hash[space]) if hash.key?(space)
         hash = result
       end
       hash
     end
 
     def load_each_source
-      @source_dirs.each.inject(InnerHash.new) do |root, dir|
+      @source_dirs.each.inject({}) do |root, dir|
         Dir.glob("#{dir}/**/*.#{@loader.extention}") do |path|
           source = @loader.load(path)
           if namespace and source[namespace.to_s]
             namespaced_hash(root, source)
           else
-            root.deep_merge!(source)
+            Merger.merge(root, source)
           end
         end
         root
@@ -88,8 +89,8 @@ module Configue
       base = base_namespace.to_s
       space = namespace.to_s
 
-      root.deep_merge!(base => hash[base]) if ! base.empty? and hash[base]
-      root.deep_merge!(space => hash[space])
+      Merger.merge(root, base => hash[base]) if ! base.empty? and hash.key?(base)
+      Merger.merge(root, space => hash[space])
       root
     end
 
