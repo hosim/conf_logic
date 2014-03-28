@@ -6,7 +6,7 @@ module Configue
   class Container < Node
 
     def query(key=nil)
-      q = Criteria.new(@hash)
+      q = Criteria.new(self)
       q = key.split('.').each.inject(q) {|c, k| c[k] } if key
       q
     end

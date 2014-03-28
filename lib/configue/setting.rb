@@ -104,7 +104,7 @@ module Configue
       nm = name.to_s
       if instance[access_name] and instance[access_name].key?(nm)
         instance[access_name][nm]
-      elsif [:keys, :key?, :has_key?].index(name)
+      elsif [:keys, :key?, :has_key?, :fetch].index(name)
         instance[access_name].__send__(name, *args, &block)
       else
         super
