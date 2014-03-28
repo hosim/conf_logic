@@ -54,6 +54,7 @@ module Configue
         next unless k.to_s =~ /\A\w+\z/
         sig.__send__(:define_method, k, -> { instance[k] })
       end
+      instance
     end
 
     private
