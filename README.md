@@ -81,7 +81,9 @@ test:
       - foo
       - woo
 ```
+
 and define a class for the settings
+
 ```ruby
 class MyConf < Configue::Container
   config.source_dir "#{File.dirname(__FILE__)}/config/settings"
@@ -89,7 +91,9 @@ class MyConf < Configue::Container
   config.namespace :test
 end
 ```
+
 you can access it in the following manner:
+
 ```
 >> MyConf.foo.baa
 => ["boo", "foo", "woo"]
