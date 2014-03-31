@@ -6,7 +6,7 @@ require "configue/yaml_loader"
 module Configue
   class Setting
     def initialize(owner_class)
-      @owner_class = owner_class
+      @owner = owner_class
       @loader = YamlLoader.new
     end
 
@@ -43,18 +43,7 @@ module Configue
     end
 
     def load!
-      instance = @owner_class.instance_variable_get(:@instance)
-      return instance if instance
-
-      instance = @owner_class.new(load_sources)
-      @owner_class.instance_variable_set(:@instance, instance)
-
-      sig = class << @owner_class; self; end
-      instance.keys.each do |k|
-        next unless k.to_s =~ /\A\w+\z/
-        sig.__send__(:define_method, k, -> { instance[k] })
-      end
-      instance
+      @owner.instance ? @owner.instance : @owner.new_container(load_sources)
     end
 
     private
@@ -96,15 +85,11 @@ module Configue
     end
 
     def method_missing(name, *args, &block)
-      access_name = @owner_class.instance_variable_get(:@config_access_name)
+      access_name = @owner.config_method_name
       return super unless access_name
 
       instance = self.load!
-
-      nm = name.to_s
-      if instance[access_name] and instance[access_name].key?(nm)
-        instance[access_name][nm]
-      elsif [:keys, :key?, :has_key?, :fetch].index(name)
+      if instance[access_name]
         instance[access_name].__send__(name, *args, &block)
       else
         super

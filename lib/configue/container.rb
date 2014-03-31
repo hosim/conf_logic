@@ -1,5 +1,6 @@
 # coding: utf-8
 
+require "configue/container_adapter"
 require "configue/criteria"
 
 module Configue
@@ -56,12 +57,12 @@ module Configue
       # +config+ allows you to access the object for setting container.
       def config
         @config_access_name = "config"
-        @setting ||= Setting.new(self)
+        @setting ||= Setting.new(ContainerAdapter.new(self))
       end
 
       def config_setting
         @config_access_name = "config_setting"
-        @setting ||= Setting.new(self)
+        @setting ||= Setting.new(ContainerAdapter.new(self))
       end
 
       private

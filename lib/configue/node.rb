@@ -3,6 +3,8 @@
 module Configue
   class Node
     def initialize(hash)
+      raise TypeError unless hash.respond_to?(:[])
+
       sig = class << self; self; end
       @hash = hash.each.inject({}) do |h, (k, v)|
         sig.__send__(:define_method, k, ->{ self[k] })
