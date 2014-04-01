@@ -29,9 +29,9 @@ module Configue
     end
 
     def source_dir(*dirs)
-      @source_dirs ||= []
-      @source_dirs += dirs unless dirs.empty?
-      @source_dirs
+      @sources ||= []
+      @sources += dirs.map {|d| {dir: d}} unless dirs.empty?
+      @sources
     end
 
     def source_dir=(dir)
@@ -40,6 +40,12 @@ module Configue
       else
         source_dir(dir)
       end
+    end
+
+    def source_file(*files)
+      @sources ||= []
+      @sources += files.map {|f| {file: f}} unless files.empty?
+      @sources
     end
 
     def load!
@@ -62,16 +68,24 @@ module Configue
     end
 
     def load_each_source
-      @source_dirs.each.inject({}) do |root, dir|
-        Dir.glob("#{dir}/**/*.#{@loader.extention}") do |path|
-          source = @loader.load(path)
-          if namespace and source[namespace.to_s]
-            namespaced_hash(root, source)
-          else
-            Merger.merge(root, source)
+      @sources.each.inject({}) do |root, src|
+        if src.key?(:dir)
+          Dir.glob("#{src[:dir]}/**/*.#{@loader.extention}") do |path|
+            load_source_file(root, path)
           end
+        elsif src.key?(:file)
+          load_source_file(root, src[:file])
         end
         root
+      end
+    end
+
+    def load_source_file(root, path)
+      source = @loader.load(path)
+      if namespace and source[namespace.to_s]
+        namespaced_hash(root, source)
+      else
+        Merger.merge(root, source)
       end
     end
 
@@ -79,7 +93,9 @@ module Configue
       base = base_namespace.to_s
       space = namespace.to_s
 
-      Merger.merge(root, base => hash[base]) if ! base.empty? and hash.key?(base)
+      if ! base.empty? and hash.key?(base)
+        Merger.merge(root, base => hash[base])
+      end
       Merger.merge(root, space => hash[space])
       root
     end

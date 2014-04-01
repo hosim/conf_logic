@@ -46,4 +46,20 @@ describe "Configue::Container" do
         {"ding" => ["dong", "dang"], "tick" => ["tack", "toe"]}
     end
   end
+
+  context "when reading a single yaml with source_file" do
+    require File.expand_path("../samples/single_source_conf", __FILE__)
+
+    context "1st level" do
+      it_should_behave_like "an InnerHash instance",
+        SingleSourceConf,
+        {"config" => ["accounts"]}
+    end
+
+    context "2nd level" do
+      it_should_behave_like "an InnerHash instance",
+        SingleSourceConf["config"],
+        {"accounts" => ["admin_users"]}
+    end
+  end
 end
