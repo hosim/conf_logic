@@ -63,9 +63,10 @@ module Configue
 
     def namespaced_hash(hash)
       space = namespace.to_s
+      base = base_namespace.to_s
       result = {}
-      Merger.merge(result, hash[base_namespace.to_s]) if base_namespace
-      Merger.merge(result, hash[space]) if hash.key?(space)
+      result = Merger.merge(result, hash[base]) if base_namespace
+      result = Merger.merge(result, hash[space]) if hash.key?(space)
       result
     end
 

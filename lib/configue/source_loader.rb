@@ -12,7 +12,6 @@ module Configue
     end
 
     def load
-      @hash = {}
       @sources.each do |src|
         src.each {|k, v| __send__("load_#{k}", v) }
       end
@@ -31,16 +30,15 @@ module Configue
       if @namespace and source[@namespace]
         namespaced_hash(source)
       else
-        Merger.merge(@hash, source)
+        @hash = Merger.merge(@hash, source)
       end
     end
 
     def namespaced_hash(hash)
       if @basespace and hash.key?(@basespace)
-        Merger.merge(@hash, @basespace => hash[@basespace])
+        @hash = Merger.merge(@hash, @basespace => hash[@basespace])
       end
-      Merger.merge(@hash, @namespace => hash[@namespace])
-      @hash
+      @hash = Merger.merge(@hash, @namespace => hash[@namespace])
     end
   end
 end
