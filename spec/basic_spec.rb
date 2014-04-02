@@ -1,9 +1,9 @@
 # coding: utf-8
-require File.expand_path("../../spec_helper", __FILE__)
+require File.expand_path("../spec_helper", __FILE__)
 
 describe "Configue::Container" do
   context "when reading a single yaml file" do
-    require "#{File.dirname(__FILE__)}/../single_yaml_conf"
+    require File.expand_path("../samples/single_yaml_conf", __FILE__)
 
     context "1st level" do
       it_should_behave_like "an InnerHash instance",
@@ -22,7 +22,7 @@ describe "Configue::Container" do
   end
 
   context "when reading multiple yaml files" do
-    require "#{File.dirname(__FILE__)}/../multiple_yaml_conf"
+    require File.expand_path("../samples/multiple_yaml_conf", __FILE__)
 
     context "1st level" do
       it_should_behave_like "an InnerHash instance",
@@ -44,6 +44,22 @@ describe "Configue::Container" do
       it_should_behave_like "an InnerHash instance",
         MultipleYamlConf["foo"]["bar"],
         {"ding" => ["dong", "dang"], "tick" => ["tack", "toe"]}
+    end
+  end
+
+  context "when reading a single yaml with source_file" do
+    require File.expand_path("../samples/single_source_conf", __FILE__)
+
+    context "1st level" do
+      it_should_behave_like "an InnerHash instance",
+        SingleSourceConf,
+        {"config" => ["accounts"]}
+    end
+
+    context "2nd level" do
+      it_should_behave_like "an InnerHash instance",
+        SingleSourceConf["config"],
+        {"accounts" => ["admin_users"]}
     end
   end
 end

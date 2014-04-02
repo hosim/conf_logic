@@ -1,0 +1,6 @@
+config:
+  accounts:
+    test_users:
+      - sleepy
+      - dopey
+

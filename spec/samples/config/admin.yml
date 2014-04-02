@@ -1,0 +1,6 @@
+config:
+  accounts:
+    admin_users:
+      - grumpy
+      - sneezy
+

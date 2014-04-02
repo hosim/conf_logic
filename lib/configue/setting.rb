@@ -1,11 +1,13 @@
 # coding: utf-8
 
+require "configue/merger"
+require "configue/source_loader"
 require "configue/yaml_loader"
 
 module Configue
   class Setting
     def initialize(owner_class)
-      @owner_class = owner_class
+      @owner = owner_class
       @loader = YamlLoader.new
     end
 
@@ -28,9 +30,9 @@ module Configue
     end
 
     def source_dir(*dirs)
-      @source_dirs ||= []
-      @source_dirs += dirs unless dirs.empty?
-      @source_dirs
+      @sources ||= []
+      @sources += dirs.map {|d| {dir: d}} unless dirs.empty?
+      @sources
     end
 
     def source_dir=(dir)
@@ -41,42 +43,43 @@ module Configue
       end
     end
 
-    def load_source
-      hash = load_sources
+    def source_file(*files)
+      @sources ||= []
+      @sources += files.map {|f| {file: f}} unless files.empty?
+      @sources
+    end
 
-      space = namespace.to_s
-      unless space.empty?
-        base = base_namespace.to_s
-        result = InnerHash.new
-        result.deep_merge!(hash[base]) if base_namespace
-        result.deep_merge!(hash[space]) if hash[space]
-        hash = result
-      end
-      hash
+    def load!
+      @owner.instance ? @owner.instance : @owner.new_container(load_sources)
     end
 
     private
     def load_sources
-      @source_dirs.each.inject(InnerHash.new) do |root, dir|
-        Dir.glob("#{dir}/**/*.#{@loader.extention}") do |path|
-          source = @loader.load(path)
-          if namespace and source[namespace.to_s]
-            namespaced_hash(root, source)
-          else
-            root.deep_merge!(source)
-          end
-        end
-        root
-      end
+      loader = SourceLoader.new(@loader, @sources, @namespace, @base_namespace)
+      hash = loader.load
+      hash = namespaced_hash(hash) if namespace
+      hash
     end
 
-    def namespaced_hash(root, hash)
-      base = base_namespace.to_s
+    def namespaced_hash(hash)
       space = namespace.to_s
+      base = base_namespace.to_s
+      result = {}
+      result = Merger.merge(result, hash[base]) if base_namespace
+      result = Merger.merge(result, hash[space]) if hash.key?(space)
+      result
+    end
 
-      root.deep_merge!(base => hash[base]) if ! base.empty? and hash[base]
-      root.deep_merge!(space => hash[space])
-      root
+    def method_missing(name, *args, &block)
+      access_name = @owner.config_method_name
+      return super unless access_name
+
+      instance = self.load!
+      if instance[access_name]
+        instance[access_name].__send__(name, *args, &block)
+      else
+        super
+      end
     end
   end
 end

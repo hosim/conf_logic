@@ -1,6 +1,6 @@
 # Configue
 Configue is a configuration / settings solution that uses YAML files.
-It is almost a fork of SettingsLogic.
+It is almost a fork of [SettingsLogic](https://github.com/binarylogic/settingslogic).
 Configue can read multiple YAML files and you can use big configuration data
 simply.
 
@@ -79,7 +79,9 @@ test:
       - foo
       - woo
 ```
+
 and define a class for the settings
+
 ```ruby
 class MyConf < Configue::Container
   config.source_dir "#{File.dirname(__FILE__)}/config/settings"
@@ -87,7 +89,9 @@ class MyConf < Configue::Container
   config.namespace :test
 end
 ```
+
 you can access it in the following manner:
+
 ```
 >> MyConf.foo.baa
 => ["boo", "foo", "woo"]

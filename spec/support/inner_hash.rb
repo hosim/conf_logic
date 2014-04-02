@@ -39,7 +39,7 @@ shared_examples_for "an InnerHash instance" do |object, hash|
     context "when specifing the existing key names" do
       it "returns a Hash value" do
         hash.each do |key, value|
-          expect(object[key]).to be_a(Hash) if value
+          expect(object[key]).to be_a(Configue::Node) if value
         end
       end
 
@@ -55,7 +55,7 @@ shared_examples_for "an InnerHash instance" do |object, hash|
     context "when specifing the existing key names in symbol" do
       it "returns a Hash value" do
         hash.each do |key, value|
-          expect(object[key.to_sym]).to be_a(Hash) if value
+          expect(object[key.to_sym]).to be_a(Configue::Node) if value
         end
       end
 
@@ -73,7 +73,7 @@ shared_examples_for "an InnerHash instance" do |object, hash|
     context "when call methods which names are existing in the setting(s)" do
       it "returns a Hash value" do
         hash.each do |key, value|
-          expect(object.__send__(key)).to be_a(Hash) if value
+          expect(object.__send__(key)).to be_a(Configue::Node) if value
         end
       end
 
