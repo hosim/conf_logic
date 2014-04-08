@@ -52,6 +52,7 @@ config:
 You can specify `namespace` and `base_namespace`.
 
 When you write settings as follows:
+
 ```yaml
 # config/settings/base.yml
 base:
@@ -100,4 +101,16 @@ you can access it in the following manner:
 
 >> MyConf.foo.baz
 => ["one", "two", "three"]
+```
+
+### source_file
+You can specify files that you want to load into your class in the following manner:
+
+```ruby
+class MyConf < Configue::Container
+  config.source_file "#{File.dirname(__FILE__)}/config/settings/base.yml"
+  config.source_file "#{File.dirname(__FILE__)}/config/settings/dev.yml"
+  config.source_file "#{File.dirname(__FILE__)}/config/settings/test.yml"
+
+  ...
 ```
