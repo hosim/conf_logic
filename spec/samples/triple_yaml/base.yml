@@ -1,0 +1,10 @@
+base:
+  items:
+    foo: abc abc
+    baa: def def
+    baz: ghi ghi
+    pee: 123
+    kaa: 456
+    boo: 789
+
+  

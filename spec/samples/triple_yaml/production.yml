@@ -1,0 +1,5 @@
+production:
+  items:
+    foo: ABC ABC
+    baa: DEF DEF
+    baz: GHI GHI
