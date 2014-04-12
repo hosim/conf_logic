@@ -4,8 +4,6 @@ require "configue/container_adapter"
 require "configue/criteria"
 
 module Configue
-  # +Configue::Container+ is a setting solution using a YAML file.
-  #
   # When you have such configuration files:
   #
   #    # config/accounts/admin_users.yml
@@ -20,7 +18,7 @@ module Configue
   #        - sleepy
   #        - dopey
   #
-  # this could be:
+  # you can load them into your class in the following ways:
   #
   #    class Foo < Configue::Container
   #      config.source_dir "#{File.dirname(__FILE__)}/config"
@@ -34,9 +32,9 @@ module Configue
   #
   class Container < Node
 
-    # When you do not know the setting has keys that you want to
-    # specify and want to avoid +NoMethodError+, you could use
-    # +query+ and +retrieve+.
+    # When you do not know whether your setting object has keys
+    # that you want to specify and want to avoid +NoMethodError+,
+    # you can use +query+ and +retrieve+.
     #
     #   Foo.query("accounts.admin_users").retrieve
     #   # => ["grumpy", "sneezy"]
@@ -54,12 +52,13 @@ module Configue
     end
 
     class << self
-      # +config+ allows you to access the object for setting container.
+      # +config+ allows you to access the object for setting up container.
       def config
         @config_access_name = "config"
         @setting ||= Setting.new(ContainerAdapter.new(self))
       end
 
+      # +config_setting+ is the same with +config+.
       def config_setting
         @config_access_name = "config_setting"
         @setting ||= Setting.new(ContainerAdapter.new(self))

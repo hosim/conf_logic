@@ -32,17 +32,43 @@ module Configue
       @hash.key?(k)
     end
     alias_method :has_key?, :key?
+    alias_method :include?, :key?
+    alias_method :member?,  :key?
 
-    def keys
-      @hash.keys
+    def assoc(key)
+      k = key.to_s
+      @hash.assoc(k)
     end
 
     def to_hash
       @hash.dup
     end
 
-    def to_s
-      @hash.to_s
+    def values_at(*keys)
+      ks = keys.map {|k| k.to_s }
+      @hash.values_at(*ks)
+    end
+
+    [ :keys,
+      :to_s,
+      :each,
+      :each_pair,
+      :each_key,
+      :empty?,
+      :value?,
+      :size,
+      :length,
+      :merge,
+      :rassoc,
+      :reject,
+      :select,
+      :sort,
+      :to_a,
+      :values,
+    ].each do |m|
+      define_method(m, ->(*args, &block) {
+                      @hash.__send__(m, *args, &block)
+                    })
     end
   end
 end

@@ -43,10 +43,25 @@ module Configue
       end
     end
 
+    # Specifies files that you want to load into your class.
+    #
+    # You can call this method many times.
+    #
+    # ====Arguments
+    # - +files+: files that you want to load into your class.
+    #
     def source_file(*files)
       @sources ||= []
       @sources += files.map {|f| {file: f}} unless files.empty?
       @sources
+    end
+
+    def source_file=(file)
+      if file.is_a?(Array)
+        source_file(*file)
+      else
+        source_file(file)
+      end
     end
 
     def load!
