@@ -123,8 +123,8 @@ defining a class for that.
 class Foo
   include Configue::Importer
   import_config from_dir: "#{File.dirname(__FILE__)}/config/settings",
-                namespace: :dev,
-                as: :settings
+                as: :settings,
+                namespace: :dev
   ...
   def foo
     if settings.foo.baa == ...
