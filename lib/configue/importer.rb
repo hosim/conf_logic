@@ -8,6 +8,16 @@ module Configue
   end
 
   module ClassMethod
+    # Imports a configuration as one of attributes.
+    #
+    # The following keys are available:
+    #
+    # +as+:: (required) a name of an attribute for the configuration.
+    # +from_dir+:: a path of a directory that the configuration file is in.
+    # +from_file+:: a path of the configuration file.
+    # +namespace+:: a name of namespace.
+    # +base_namespace+:: a name of base namespace.
+    #
     def import_config(args)
       raise ArgumentError unless args.respond_to?(:[])
       var = args.delete(:as)
