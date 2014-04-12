@@ -114,3 +114,19 @@ class MyConf < Configue::Container
 
   ...
 ```
+
+### import_config
+You can import a configuration into an object as one of its attributes without
+defining a class for that.
+
+```ruby
+class Foo
+  include Configue::Importer
+  import_config from_dir: "#{File.dirname(__FILE__)}/config/settings",
+                namespace: :dev,
+                as: :settings
+  ...
+  def foo
+    if settings.foo.baa == ...
+    ...
+```
