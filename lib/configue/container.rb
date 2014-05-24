@@ -69,7 +69,7 @@ module Configue
         # makes @instance in this line.
         @setting.load!
 
-        if @instance.key?(name)
+        if @instance.respond_to?(:key?) and @instance.key?(name)
           @instance[name]
         else
           @instance.__send__(name, *args, &block)

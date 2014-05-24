@@ -15,13 +15,15 @@ module Configue
     end
 
     def instance=(arg)
-      raise TypeError unless arg.respond_to?(:[]) or arg.respond_to?(:keys)
+      raise TypeError unless arg.respond_to?(:[])
 
       @class.instance_variable_set(:@instance, arg)
-      sig = class << @class; self; end
-      arg.keys.each do |k|
-        next unless k.to_s =~ /\A\w[\w0-9]*\z/
-        sig.__send__(:define_method, k, -> { arg[k] })
+      if arg.respond_to?(:keys)
+        sig = class << @class; self; end
+        arg.keys.each do |k|
+          next unless k.to_s =~ /\A\w[\w0-9]*\z/
+          sig.__send__(:define_method, k, -> { arg[k] })
+        end
       end
       arg
     end

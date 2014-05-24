@@ -1,0 +1,12 @@
+- name: John Doe
+  email: john.doe@xxx.xx
+  friends:
+    - name: Jane Doe
+      email: jane.doe@xxx.xx
+    - name: Jonnie Roe
+      email: j.roe@xxx.xx
+- name: Janie Roe
+  email: janie.roe@xxx.xx
+  friends:
+    - name: John Smith
+      email: john.smith@xxx.xx
