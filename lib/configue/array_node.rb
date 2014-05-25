@@ -100,7 +100,7 @@ module Configue
       :zip,
     ].each do |m|
       define_method(m, ->(*args, &block) {
-                      @hash.__send__(m, *args, &block)
+                      @container.__send__(m, *args, &block)
                     })
     end
   end
