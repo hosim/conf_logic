@@ -1,0 +1,26 @@
+- name: friends
+  fields:
+    - name: id
+      type: Bignum
+      default: null
+      "null": false
+      option:
+        - primary key
+        - auto increment
+    - name: subject_friend_id
+      type: Bignum
+      default: null
+      "null": false
+      option:
+        - foreign key: users
+    - name: object_friend_id
+      type: Bignum
+      default: null
+      "null": false
+      option:
+        - foreign key: users
+    - name: status
+      type: integer
+      default: 0
+      "null": false
+      option:

@@ -64,43 +64,120 @@ describe "Configue::Container" do
   end
 
   context "when loading a yaml file with an array of records" do
-    require File.expand_path("../samples/array_records_conf", __FILE__)
+    let(:config) do
+      source_file = File.expand_path("../samples/array_records.yml", __FILE__)
+      Class.new(Configue::Container) {
+        config.source_file source_file
+      }
+    end
 
     describe "first record" do
       describe ".has_key?" do
         context 'when parameter is "name"' do
           it "returns true" do
-            expect(ArrayRecordsConf.first).to have_key("name")
+            expect(config.first).to have_key("name")
           end
         end
 
         context 'when parameter is "email"' do
           it "returns true" do
-            expect(ArrayRecordsConf.first).to have_key("email")
+            expect(config.first).to have_key("email")
           end
         end
 
         context "when parameter is :name" do
           it "returns true" do
-            expect(ArrayRecordsConf.first).to have_key(:name)
+            expect(config.first).to have_key(:name)
           end
         end
 
         context "when parameter is :email" do
           it "returns true" do
-            expect(ArrayRecordsConf.first).to have_key(:email)
+            expect(config.first).to have_key(:email)
           end
         end
 
         context 'when parameter is "foo"' do
           it "returns false" do
-            expect(ArrayRecordsConf.first).not_to have_key("foo")
+            expect(config.first).not_to have_key("foo")
           end
         end
 
         context "when parameter is :foo" do
           it "returns false" do
-            expect(ArrayRecordsConf.first).not_to have_key(:foo)
+            expect(config.first).not_to have_key(:foo)
+          end
+        end
+      end
+    end
+  end
+
+  context "when loading the sample multiple yaml files with an array of records" do
+    let(:config) do
+      source_dir = File.expand_path("../samples/multiple_array_records", __FILE__)
+      Class.new(Configue::Container) {
+        config.source_dir source_dir
+      }
+    end
+
+    describe ".size" do
+      it "returns 2" do
+        expect(config.size).to eq 2
+      end
+    end
+
+    describe ".first" do
+      it "can respond to a `keys' message" do
+        expect(config.first).to respond_to(:keys)
+      end
+
+      describe ".keys" do
+        it "returns 'name' and 'fields'" do
+          expect(config.first.keys).to match_array(["name", "fields"])
+        end
+      end
+
+      describe ".name" do
+        it "returns String value" do
+          expect(config.first.name).to be_instance_of(String)
+        end
+      end
+
+      describe ".fields" do
+        describe ".first" do
+          describe ".keys" do
+            it "returns `name', `type', `default', `null' and `option'" do
+              target = config.first.fields.first.keys
+              expect(target).to match_array(%w[name type default null option])
+            end
+          end
+        end
+      end
+    end
+
+    describe ".select" do
+      context "when select records of which `name' is `friends'" do
+        let(:friends_record) do
+          config.select {|item| item.name == 'friends' }
+        end
+
+        it "returns an array that has only one record" do
+          expect(friends_record.size).to eq 1
+        end
+
+        describe ".first" do
+          it "returns a hash node that has `name' and `fields' key" do
+            expect(friends_record.first.keys).to match_array(%w[name fields])
+          end
+
+          describe ".fields" do
+            let(:friends_fields) do
+              friends_record.first.fields
+            end
+
+            it "return an array that has 4 records" do
+              expect(friends_fields.size).to eq 4
+            end
           end
         end
       end
