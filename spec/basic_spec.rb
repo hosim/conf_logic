@@ -62,4 +62,48 @@ describe "Configue::Container" do
         {"accounts" => ["admin_users"]}
     end
   end
+
+  context "when loading a yaml file with an array of records" do
+    require File.expand_path("../samples/array_records_conf", __FILE__)
+
+    describe "first record" do
+      describe ".has_key?" do
+        context 'when parameter is "name"' do
+          it "returns true" do
+            expect(ArrayRecordsConf.first).to have_key("name")
+          end
+        end
+
+        context 'when parameter is "email"' do
+          it "returns true" do
+            expect(ArrayRecordsConf.first).to have_key("email")
+          end
+        end
+
+        context "when parameter is :name" do
+          it "returns true" do
+            expect(ArrayRecordsConf.first).to have_key(:name)
+          end
+        end
+
+        context "when parameter is :email" do
+          it "returns true" do
+            expect(ArrayRecordsConf.first).to have_key(:email)
+          end
+        end
+
+        context 'when parameter is "foo"' do
+          it "returns false" do
+            expect(ArrayRecordsConf.first).not_to have_key("foo")
+          end
+        end
+
+        context "when parameter is :foo" do
+          it "returns false" do
+            expect(ArrayRecordsConf.first).not_to have_key(:foo)
+          end
+        end
+      end
+    end
+  end
 end

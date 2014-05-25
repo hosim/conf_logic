@@ -2,19 +2,20 @@
 
 module Configue
   module Merger
+    MERGER = ->(key, h1, h2) {
+      if h1.is_a?(Hash) and h2.is_a?(Hash)
+        h1.merge(h2, &MERGER)
+      else
+        h2
+      end
+    }
+    private_constant :MERGER
+
     def merge(hash1, hash2)
       return hash2 unless hash1
       return hash1 unless hash2
 
-      merger = ->(key, h1, h2) {
-        if h1.is_a?(Hash) and h2.is_a?(Hash)
-          h1.merge(h2, &merger)
-        else
-          h2
-        end
-      }
-
-      hash1.merge(hash2, &merger)
+      hash1.merge(hash2, &MERGER)
     end
 
     module_function :merge
