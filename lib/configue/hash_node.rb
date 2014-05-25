@@ -38,7 +38,12 @@ module Configue
       @hash.values_at(*ks)
     end
 
-    [ :keys,
+    [ :all?,
+      :any?,
+      :collect,
+      :count,
+      :cycle,
+      :keys,
       :to_s,
       :each,
       :each_pair,

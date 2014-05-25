@@ -2,18 +2,6 @@
 
 module Configue
   module ArrayNode
-    def [](index)
-      return nil unless @hash
-      v = @hash[index]
-      @hash[index] = self.class.new(v) if node?(v)
-      @hash[index]
-    end
-
-    def last
-      return nil unless @hash
-      self[@hash.size - 1]
-    end
-
     [ :first,
       :second,
       :third,
@@ -35,35 +23,63 @@ module Configue
       :|,
       :<=>,
       :==,
+      :[],
+      :all?,
+      :any?,
       :assoc,
       :at,
+      :chunk,
       :collect,
       :combination,
       :compact,
       :count,
       :cycle,
+      :detect,
       :drop,
       :drop_while,
       :each,
       :each_index,
+      :each_slice,
+      :each_with_index,
+      :each_with_object,
       :empty?,
+      :entries,
       :eql?,
+      :fetch,
+      :find,
+      :find_all,
       :find_index,
+      :flat_map,
       :flattern,
       :frozen?,
+      :grep,
+      :group_by,
       :hash,
       :include?,
       :index,
+      :inject,
       :join,
       :length,
       :map,
+      :max,
+      :max_by,
+      :member?,
+      :min,
+      :min_by,
+      :minmax,
+      :minmax_by,
+      :none?,
+      :one?,
       :pack,
+      :partition,
       :product,
       :reassoc,
+      :reduce,
       :reject,
       :repeated_combination,
       :repeated_permutation,
       :reverse,
+      :reverse_each,
       :rindex,
       :rotate,
       :sample,
@@ -71,7 +87,9 @@ module Configue
       :shuffle,
       :size,
       :slice,
+      :slice_before,
       :sort,
+      :sort_by,
       :take,
       :take_while,
       :to_a,
