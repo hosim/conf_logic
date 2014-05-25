@@ -15,7 +15,11 @@ module Configue
       return hash2 unless hash1
       return hash1 unless hash2
 
-      hash1.merge(hash2, &MERGER)
+      if hash1.is_a?(Array) and hash2.is_a?(Array)
+        hash1.concat(hash2)
+      else
+        hash1.merge(hash2, &MERGER)
+      end
     end
 
     module_function :merge
