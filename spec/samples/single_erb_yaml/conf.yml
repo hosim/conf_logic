@@ -1,0 +1,11 @@
+foo:
+ - <%= 'pee-kaa-boo'.split('-')[0] %>
+ - <%= 'pee-kaa-boo'.split('-')[1] %>
+ - <%= 'pee-kaa-boo'.split('-')[2] %>
+baa:
+ - spam
+ - ham
+baz:
+ - toto
+ - titi
+ - tata
