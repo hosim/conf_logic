@@ -1,5 +1,6 @@
 # coding: utf-8
 require "yaml"
+require "erb"
 
 module Configue
   class YamlLoader
@@ -8,7 +9,9 @@ module Configue
     end
 
     def load(path)
-      YAML.load_file(path)
+      buf = open(path).read
+      return {} if buf.empty?
+      YAML.load(ERB.new(buf).result)
     end
   end
 end

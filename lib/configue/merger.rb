@@ -11,11 +11,15 @@ module Configue
     }
     private_constant :MERGER
 
-    def merge(hash1, hash2)
-      return hash2 unless hash1
-      return hash1 unless hash2
+    def merge(container1, container2)
+      return container2 unless container1
+      return container1 unless container2
 
-      hash1.merge(hash2, &MERGER)
+      if container1.is_a?(Array) and container2.is_a?(Array)
+        container1.concat(container2)
+      else
+        container1.merge(container2, &MERGER)
+      end
     end
 
     module_function :merge

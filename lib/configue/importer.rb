@@ -20,8 +20,7 @@ module Configue
     #
     def import_config(args)
       raise ArgumentError unless args.respond_to?(:[])
-      var = args.delete(:as)
-      raise if var.nil?
+      var = args.delete(:as) || 'config'
 
       dirs = args.delete(:from_dir)
       files = args.delete(:from_file)

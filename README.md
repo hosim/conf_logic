@@ -113,6 +113,16 @@ class MyConf < Configue::Container
   ...
 ```
 
+### support ERB tag
+You can use ERB tags in YAML files.
+
+```yaml
+foo:
+  baa:
+    baz:
+      - <%= ENV['foo'] %>
+```
+
 ### import_config
 You can import a configuration into an object as one of its attributes without
 defining a class for that.

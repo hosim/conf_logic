@@ -4,21 +4,21 @@ module Configue
   module HashNode
     def [](key)
       k = key.to_s
-      v = @hash[k]
-      @hash[k] = self.class.new(v) if node?(v)
-      @hash[k]
+      v = @container[k]
+      @container[k] = self.class.new(v) if node?(v)
+      @container[k]
     end
 
     def fetch(key)
       k = key.to_s
-      v = @hash[key]
-      @hash[k] = self.class.new(v) if node?(v)
-      @hash.fetch(k)
+      v = @container[key]
+      @container[k] = self.class.new(v) if node?(v)
+      @container.fetch(k)
     end
 
     def key?(key)
       k = key.to_s
-      @hash.key?(k)
+      @container.key?(k)
     end
     alias_method :has_key?, :key?
     alias_method :include?, :key?
@@ -26,16 +26,16 @@ module Configue
 
     def assoc(key)
       k = key.to_s
-      @hash.assoc(k)
+      @container.assoc(k)
     end
 
     def to_hash
-      @hash.dup
+      @container.dup
     end
 
     def values_at(*keys)
       ks = keys.map {|k| k.to_s }
-      @hash.values_at(*ks)
+      @container.values_at(*ks)
     end
 
     [ :all?,
@@ -61,7 +61,7 @@ module Configue
       :values,
     ].each do |m|
       define_method(m, ->(*args, &block) {
-                      @hash.__send__(m, *args, &block)
+                      @container.__send__(m, *args, &block)
                     })
     end
   end

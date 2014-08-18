@@ -1,0 +1,30 @@
+- name: users
+  fields:
+    - name: id
+      type: Bignum
+      default: null
+      "null": false
+      option:
+        - primary key
+        - auto increment
+    - name: name
+      type: string
+      default: null
+      "null": false
+      option:
+    - name: email
+      type: string
+      default: null
+      "null": false
+      option:
+        - unique
+    - name: password
+      type: string
+      default: null
+      "null": false
+      option:
+    - name: salt
+      type: string
+      default: null
+      "null": false
+      option:
