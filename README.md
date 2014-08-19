@@ -113,7 +113,7 @@ class MyConf < Configue::Container
   ...
 ```
 
-### support ERB tag
+### ERB tags
 You can use ERB tags in YAML files.
 
 ```yaml
